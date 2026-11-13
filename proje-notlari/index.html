@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Herdr Proje Notları</title>
+<meta name="description" content="Herdr TUI'ye control+b m ile açılan, notları Obsidian vault'unda repo adına göre klasörleyen proje notları kısayolu: nasıl yaptık, elle kurulum ve ajana verilecek tarif.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4ef; --bg2:#ffffff; --bg3:#efece4; --line:#ddd8cc; --fg:#1d1b17; --dim:#6b665b;
+  --accent:#c2541b; --accent-soft:#f6e3d6; --code:#2a2722; --done:#2f8f5b; --working:#c98a0b;
+  --kbd-bg:#ffffff; --kbd-line:#cfc8b8; --kbd-shadow:#bdb5a2;
+  --shadow:0 1px 0 rgba(0,0,0,.03),0 8px 24px -16px rgba(60,40,10,.25);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15140f; --bg2:#1d1c16; --bg3:#26241d; --line:#35322a; --fg:#ece8dd; --dim:#9a9486;
+    --accent:#f08a4b; --accent-soft:#3a2516; --code:#ece8dd; --done:#5ccf8c; --working:#f2b84b;
+    --kbd-bg:#2b2921; --kbd-line:#47443a; --kbd-shadow:#0d0c09;
+    --shadow:0 1px 0 rgba(255,255,255,.02),0 10px 30px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15140f; --bg2:#1d1c16; --bg3:#26241d; --line:#35322a; --fg:#ece8dd; --dim:#9a9486;
+  --accent:#f08a4b; --accent-soft:#3a2516; --code:#ece8dd; --done:#5ccf8c; --working:#f2b84b;
+  --kbd-bg:#2b2921; --kbd-line:#47443a; --kbd-shadow:#0d0c09;
+  --shadow:0 1px 0 rgba(255,255,255,.02),0 10px 30px -18px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 "IBM Plex Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+code,pre,kbd{font-family:"JetBrains Mono",ui-monospace,monospace}
+code{font-size:.86em;background:var(--bg3);padding:.1em .38em;border-radius:5px;color:var(--code);overflow-wrap:anywhere}
+pre{margin:10px 0 0;background:var(--bg3);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;font-size:12.8px;line-height:1.55}
+pre code{background:none;padding:0;white-space:pre;font-size:inherit;overflow-wrap:normal}
+kbd{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 6px;margin:0 1px;font-size:12px;font-weight:600;background:var(--kbd-bg);border:1px solid var(--kbd-line);border-bottom-width:2px;border-radius:6px;box-shadow:0 1px 0 var(--kbd-shadow);color:var(--fg);line-height:1}
+kbd.p{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.th{color:var(--dim);margin:0 2px;font-size:12px}
+.c{color:var(--dim)}
+
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1080px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center}
+.brand{font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:8px;color:var(--fg);text-decoration:none}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.brand .back{color:var(--dim);font-weight:500}
+nav.sec{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+nav.sec::-webkit-scrollbar{display:none}
+nav.sec a{color:var(--dim);text-decoration:none;font-size:13.5px;padding:6px 10px;border-radius:8px;white-space:nowrap}
+nav.sec a:hover,nav.sec a.on{color:var(--fg);background:var(--bg3)}
+.tbtn{border:1px solid var(--line);background:var(--bg2);color:var(--fg);border-radius:8px;height:32px;padding:0 10px;font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+.tbtn:hover{border-color:var(--accent)}
+
+main{max-width:1080px;margin:0 auto;padding:0 16px 80px}
+.crumb{padding-top:28px;font-size:13.5px;color:var(--dim)}
+.crumb a{color:var(--dim)}
+.hero{padding:14px 0 10px}
+.hero h1{font-size:clamp(32px,5vw,52px);line-height:1.04;letter-spacing:-.035em;margin:0 0 14px;font-weight:700}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p.lead{font-size:17px;color:var(--dim);margin:0;max-width:62ch}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.chip{font-size:12px;border:1px solid var(--line);background:var(--bg2);padding:3px 9px;border-radius:999px;color:var(--dim)}
+
+/* demo: terminal over which the note pops up */
+.demo{margin-top:26px;border:1px solid var(--line);border-radius:14px;background:var(--bg2);box-shadow:var(--shadow);overflow:hidden}
+.demo .bar{display:flex;gap:6px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--line);background:var(--bg3);font-size:12px;color:var(--dim)}
+.demo .bar i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.demo .bar span{margin-left:8px;font-family:"JetBrains Mono",monospace}
+.demo .scr{position:relative;padding:18px;min-height:230px;font:12.5px/1.7 "JetBrains Mono",monospace;color:var(--dim)}
+.demo .scr .ln{opacity:.55}
+.demo .scr .ln b{color:var(--done);font-weight:500}
+.demo .pop{position:absolute;left:12%;right:12%;top:26px;background:var(--bg);border:1px solid var(--accent);border-radius:10px;box-shadow:0 18px 40px -18px rgba(0,0,0,.45)}
+.demo .pop .ph{display:flex;justify-content:space-between;gap:10px;padding:7px 12px;border-bottom:1px solid var(--line);font-size:11.5px;color:var(--accent);flex-wrap:wrap}
+.demo .pop .pb{padding:10px 12px;color:var(--fg)}
+.demo .pop .pb .h{color:var(--accent)}
+.demo .pop .pf{padding:6px 12px;border-top:1px solid var(--line);font-size:11px;color:var(--dim)}
+
+section.blk{padding-top:46px}
+.sh{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.sh .n{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--accent);font-weight:600}
+.sh h2{margin:0;font-size:28px;letter-spacing:-.02em}
+.sub{color:var(--dim);margin:0 0 18px;max-width:75ch}
+h3{letter-spacing:-.01em}
+
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);min-width:0}
+.card h3{margin:0 0 8px;font-size:16px;display:flex;align-items:center;gap:8px}
+.card p{margin:0 0 8px}
+.card p:last-child{margin-bottom:0}
+.card ul{margin:6px 0 0;padding-left:18px}
+.card li{margin:3px 0}
+
+table.ft{width:100%;border-collapse:collapse;font-size:14px}
+table.ft th,table.ft td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+table.ft th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);font-weight:600}
+table.ft tr:last-child td{border-bottom:none}
+.tw{overflow-x:auto;background:var(--bg2);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+
+/* flow */
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;counter-reset:f}
+.flow li{position:relative;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);min-width:0}
+.flow li::before{counter-increment:f;content:counter(f);display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font:600 12px "JetBrains Mono",monospace;margin-bottom:8px}
+.flow li:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;transform:translate(50%,-50%);color:var(--accent);font-weight:700;z-index:1}
+.flow b{display:block;margin-bottom:4px}
+.flow span{font-size:14px;color:var(--dim)}
+
+/* story */
+.story{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.story li{display:grid;grid-template-columns:120px 1fr;gap:14px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.story .w{font:600 12px "JetBrains Mono",monospace;color:var(--accent);padding-top:3px}
+.story li.x .w{color:var(--dim);text-decoration:line-through}
+.story b{display:block}
+.story span{color:var(--dim);font-size:14px}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
+.steps > li{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px 18px 16px 58px;position:relative;box-shadow:var(--shadow);min-width:0}
+.steps > li::before{counter-increment:s;content:counter(s,decimal-leading-zero);position:absolute;left:18px;top:16px;font:600 14px "JetBrains Mono",monospace;color:var(--accent)}
+.steps h3{margin:0 0 6px;font-size:16px}
+.steps p{margin:0 0 6px}
+
+.callout{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--accent);background:var(--accent-soft);border-radius:14px;padding:14px 16px;margin-top:14px}
+.callout .ic{font-size:20px;line-height:1.2}
+.callout p{margin:0}
+.warn{border-color:var(--working);background:color-mix(in srgb,var(--working) 12%,var(--bg2))}
+
+/* prompt */
+.pbox{background:var(--bg2);border:1px solid var(--accent);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.pbox .ph{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--accent-soft);flex-wrap:wrap}
+.pbox .ph b{font-size:14px}
+.pbox .ph small{color:var(--dim)}
+.pbox .ph .tbtn{margin-left:auto}
+.pbox .ph .tbtn.ok{border-color:var(--done);color:var(--done)}
+.pbox pre{margin:0;border:0;border-radius:0;max-height:520px;background:var(--bg2);font-size:12.5px}
+.pbox pre code{white-space:pre-wrap;overflow-wrap:anywhere}
+
+footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);color:var(--dim);font-size:13px;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+
+@media (max-width:900px){
+  .g2,.g3{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+  .flow li:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-12px;transform:translate(-50%,50%)}
+}
+@media (max-width:560px){
+  .brand .full{display:none}
+  .story li{grid-template-columns:1fr;gap:4px}
+  .steps > li{padding-left:18px;padding-top:40px}
+  .demo .pop{left:10px;right:10px}
+}
+@media print{
+  header.top,.tbtn{display:none}
+  body{background:#fff;color:#000}
+  .card,.steps > li,.pbox{box-shadow:none;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../"><span class="dot"></span><span>Herdr</span><span class="full back">TR · kılavuz</span></a>
+    <nav class="sec" id="nav">
+      <a href="#ne">Ne yapar</a>
+      <a href="#nasil">Nasıl yaptık</a>
+      <a href="#kurulum">Elle kurulum</a>
+      <a href="#tarif">Ajan tarifi</a>
+      <a href="#sorun">Sorunlar</a>
+    </nav>
+    <button class="tbtn" id="themeBtn" type="button" aria-label="Tema değiştir">Tema: otomatik</button>
+  </div>
+</header>
+
+<main>
+<p class="crumb"><a href="../">Herdr Türkçe kılavuz</a> › Tarifler › Proje notları</p>
+<section class="hero">
+  <h1>Herdr'a <em>proje notları</em> ekle.</h1>
+  <p class="lead">Ajan çalışırken aklına gelenleri kaybetme. <kbd class="p">⌃B</kbd><span class="th">›</span><kbd>m</kbd> ile ekranın üstünde bir not penceresi açılır. Not, o pane'in ait olduğu git deposunun adıyla bir klasöre kaydedilir. Herdr'ı kapatıp açsan da notun yerinde durur, ajana da "şu dosyadaki maddeleri yap" demen yeter.</p>
+  <div class="chips">
+    <span class="chip">Herdr TUI 0.9.5</span>
+    <span class="chip">git ≥ 2.31</span>
+    <span class="chip">micro / nano / vim</span>
+    <span class="chip">İsteğe bağlı: Obsidian</span>
+    <span class="chip">~10 dakika</span>
+    <span class="chip">Resmî değildir</span>
+  </div>
+
+  <div class="demo" aria-hidden="true">
+    <div class="bar"><i></i><i></i><i></i><span>herdr · api › 1 › claude</span></div>
+    <div class="scr">
+      <div class="ln">● Testleri çalıştırıyorum…</div>
+      <div class="ln"><b>✓</b> 42 test geçti</div>
+      <div class="ln">● Şimdi auth modülünü düzenliyorum…</div>
+      <div class="ln">&nbsp;</div>
+      <div class="ln">&nbsp;</div>
+      <div class="pop">
+        <div class="ph"><span>proje notları</span><span>…/PROJE_NOTLARIM/api/NOTLAR.md</span></div>
+        <div class="pb">
+          <div><span class="h">#</span> api</div>
+          <div>- login hatasında rate-limit testi ekle</div>
+          <div>- README'deki kurulum adımı eskimiş</div>
+          <div>- auth bitince migration'ı kontrol ettir</div>
+        </div>
+        <div class="pf">^S kaydet · ^Q kapat</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NE YAPAR -->
+<section class="blk" id="ne">
+  <div class="sh"><span class="n">01</span><h2>Ne yapar</h2></div>
+  <p class="sub">Not, tuşa bastığın pane'in klasörüne göre seçilir. Dosyalar proje klasörüne yazılmaz, tek bir not kökünde toplanır.</p>
+  <div class="tw">
+    <table class="ft">
+      <thead><tr><th>Pane nerede</th><th>Açılan not</th></tr></thead>
+      <tbody>
+        <tr><td>Bir git deposunun kökü ya da herhangi bir alt klasörü</td><td><code>NOT_KÖKÜ/api/NOTLAR.md</code></td></tr>
+        <tr><td>Aynı deponun bir worktree'si (ör. <code>feature-x</code> branch'i)</td><td>Ana deponun notu: <code>NOT_KÖKÜ/api/NOTLAR.md</code></td></tr>
+        <tr><td>Submodule</td><td>Submodule'ün klasör adıyla: <code>NOT_KÖKÜ/alt-modul/NOTLAR.md</code></td></tr>
+        <tr><td>Git dışı bir klasör</td><td>O klasörün adıyla: <code>NOT_KÖKÜ/indirilenler/NOTLAR.md</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="grid g3" style="margin-top:14px">
+    <div class="card"><h3>Kalıcı</h3><p>Not diskte bir Markdown dosyası. Herdr'ı, sunucuyu ya da Mac'i yeniden başlatsan da aynı not açılır.</p></div>
+    <div class="card"><h3>Git'e karışmaz</h3><p>Proje klasörüne hiçbir şey yazılmaz. Hiçbir <code>.gitignore</code> dosyasına dokunulmaz.</p></div>
+    <div class="card"><h3>Obsidian'da görünür</h3><p>Not kökünü Obsidian vault'unun içine koyarsan notlar orada da açılır. obsidian-git kullanıyorsan otomatik commit'lenir.</p></div>
+  </div>
+</section>
+
+<!-- NASIL YAPTIK -->
+<section class="blk" id="nasil">
+  <div class="sh"><span class="n">02</span><h2>Nasıl yaptık</h2></div>
+  <p class="sub">Herdr'da hazır bir not özelliği yok. Ama Herdr TUI bir kısayola bağlanan komutu ekranın üstünde açılan bir pencerede (popup) çalıştırabiliyor. Bu komut, odaktaki pane'in klasöründe çalışıyor. Özellik bu ikisinin üzerine kurulu.</p>
+
+  <ol class="flow">
+    <li><b>Kısayol</b><span><kbd class="p">⌃B</kbd><span class="th">›</span><kbd>m</kbd>. <code>config.toml</code> dosyasındaki <code>[[keys.command]]</code> kaydı.</span></li>
+    <li><b>Popup</b><span>Herdr, komutu odaktaki pane'in klasöründe, ekranın %70'i boyutunda bir pencerede çalıştırır.</span></li>
+    <li><b>Script</b><span><code>proje-notu.sh</code> git'e sorarak deponun adını bulur ve klasörü oluşturur.</span></li>
+    <li><b>Editör</b><span><code>micro</code> notu açar. Editörden çıkınca popup kapanır ve ajan ekranı geri gelir.</span></li>
+  </ol>
+
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card">
+      <h3>Depo adını nasıl buluyor</h3>
+      <p><code>git rev-parse --path-format=absolute --git-common-dir</code> her worktree'de ana deponun <code>.git</code> klasörünü verir. Onun bir üst klasörünün adı deponun adıdır. Bu yüzden bütün worktree'ler aynı notu paylaşır.</p>
+      <p class="c">Sonuç <code>.git</code> ile bitmiyorsa (submodule gibi) <code>--show-toplevel</code> klasörünün adı kullanılır. Git dışında <code>basename "$PWD"</code> kullanılır.</p>
+    </div>
+    <div class="card">
+      <h3>Neden NFD dönüşümü var</h3>
+      <p>macOS'taki Obsidian vault'u Syncthing ile eşitleniyorsa <code>İ</code>, <code>ş</code> gibi karakterlerin her cihazda aynı biçimde (NFD) yazılması gerekir. Yoksa aynı klasör iki kez oluşabilir.</p>
+      <p class="c">Bu adım <code>python3</code> varsa çalışır, yoksa atlanır. Eşitleme kullanmıyorsan bir etkisi olmaz.</p>
+    </div>
+  </div>
+
+  <h3 style="margin:24px 0 10px;font-size:18px">Yolda neyi değiştirdik</h3>
+  <ol class="story">
+    <li class="x"><span class="w">1. deneme</span><div><b>Not proje klasöründe, adı <code>NOTLAR.md</code></b><span>Ajan dosyayı doğrudan görüyordu. Ama dosya her projede git'e takılıyordu.</span></div></li>
+    <li class="x"><span class="w">2. deneme</span><div><b><code>NOTLAR.md</code> genel <code>~/.gitignore_global</code> dosyasına eklendi</b><span>İşe yaradı ama yanlıştı. Bu kural bütün projelerde geçerli olduğu için, takip edilmesi gereken bir <code>NOTLAR.md</code> dosyası da sessizce yok sayılırdı. Geri alındı.</span></div></li>
+    <li><span class="w">son hâli</span><div><b>Notlar Obsidian vault'unda: <code>PROJE_NOTLARIM/&lt;repo-adı&gt;/NOTLAR.md</code></b><span>Proje klasörlerine ve gitignore dosyalarına dokunulmuyor. Notlar bir yerde toplanıyor, Obsidian'da açılıyor ve vault'la birlikte yedekleniyor.</span></div></li>
+  </ol>
+</section>
+
+<!-- KURULUM -->
+<section class="blk" id="kurulum">
+  <div class="sh"><span class="n">03</span><h2>Elle kurulum</h2></div>
+  <p class="sub">Beş kısa adım. Kendin kurmak istemiyorsan <a href="#tarif">04. bölümdeki tarifi</a> ajanına ver.</p>
+
+  <ol class="steps">
+    <li>
+      <h3>Gerekenleri kontrol et</h3>
+      <pre><code>herdr --version          # 0.9.5 ya da üstü
+git --version            # 2.31 ya da üstü
+command -v micro || brew install micro</code></pre>
+      <p class="c" style="margin-top:8px">micro yerine <code>nano</code> ya da <code>vim</code> da olur. micro'da kaydetme ve çıkış tuşları alışılmış olanlar: <kbd>⌃S</kbd> ve <kbd>⌃Q</kbd>.</p>
+    </li>
+    <li>
+      <h3>Script'i oluştur: <code>~/.config/herdr/scripts/proje-notu.sh</code></h3>
+      <p>Yalnızca ilk iki satırı kendine göre değiştir.</p>
+<pre><code id="scriptSrc">#!/bin/sh
+# Herdr kısayolu (control+b, m): odaktaki pane'in git deposuna ait notu açar.
+# Notlar: $NOT_KOKU/&lt;repo-adı&gt;/NOTLAR.md
+# Worktree'ler ana deponun notunu paylaşır; git dışı klasörde klasörün adı kullanılır.
+
+NOT_KOKU="$HOME/Documents/Obsidian Vault/PROJE_NOTLARIM"   # notların toplanacağı klasör
+EDITOR_KOMUTU="micro"                                      # micro, nano, vim…
+
+ad=""
+if ortak=$(git rev-parse --path-format=absolute --git-common-dir 2&gt;/dev/null); then
+  if [ "$(basename "$ortak")" = ".git" ]; then
+    ad=$(basename "$(dirname "$ortak")")                 # normal depo ya da worktree → ana depo
+  else
+    ad=$(basename "$(git rev-parse --show-toplevel)")    # submodule vb.
+  fi
+fi
+[ -n "$ad" ] || ad=$(basename "$PWD")
+
+# Syncthing gibi eşitleme araçları için Türkçe karakterli adları NFD'ye çevir (python3 yoksa atlanır).
+if command -v python3 &gt;/dev/null 2&gt;&amp;1; then
+  ad=$(printf '%s' "$ad" | python3 -I -c 'import sys,unicodedata; sys.stdout.write(unicodedata.normalize("NFD", sys.stdin.read()))')
+fi
+
+mkdir -p "$NOT_KOKU/$ad"
+exec $EDITOR_KOMUTU "$NOT_KOKU/$ad/NOTLAR.md"</code></pre>
+      <pre><code>chmod +x ~/.config/herdr/scripts/proje-notu.sh</code></pre>
+    </li>
+    <li>
+      <h3>Kısayolu boş mu, bak</h3>
+      <pre><code>herdr --default-config | grep -n '"prefix+m"'      # çıktı boş olmalı
+grep -n 'prefix+m' ~/.config/herdr/config.toml       # kendi ayarlarında da boş olmalı</code></pre>
+      <p class="c" style="margin-top:8px">Herdr 0.9.5'in varsayılan kısayollarında <code>prefix+m</code> yok. Doluysa <code>key</code> satırında başka bir harf seç.</p>
+    </li>
+    <li>
+      <h3><code>~/.config/herdr/config.toml</code> dosyasının sonuna ekle</h3>
+<pre><code># Proje notları: control+b, sonra m
+[[keys.command]]
+key = "prefix+m"
+type = "popup"
+command = "~/.config/herdr/scripts/proje-notu.sh"
+description = "proje notları"
+width = "70%"
+height = "70%"</code></pre>
+      <p class="c" style="margin-top:8px"><code>description</code>, <kbd class="p">⌃B</kbd><span class="th">›</span><kbd>?</kbd> yardım ekranında görünür. <code>width</code> ve <code>height</code> yüzde ya da hücre sayısı olabilir.</p>
+    </li>
+    <li>
+      <h3>Doğrula ve yükle</h3>
+      <pre><code>herdr config check              # "config: ok"
+herdr server reload-config      # açık ajanlar kapanmaz</code></pre>
+      <p class="c" style="margin-top:8px"><code>herdr server stop</code> kullanma. Gerekmez ve bütün pane'leri kapatır.</p>
+    </li>
+  </ol>
+
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card">
+      <h3>Kullanım</h3>
+      <ul>
+        <li>Aç: <kbd class="p">⌃B</kbd><span class="th">›</span><kbd>m</kbd></li>
+        <li>Kaydet: <kbd>⌃S</kbd> · Kapat: <kbd>⌃Q</kbd>, kaydetmediysen <kbd>y</kbd> ya da <kbd>n</kbd></li>
+        <li>Ajana ver: “<code>~/…/PROJE_NOTLARIM/api/NOTLAR.md</code> dosyasındaki maddeleri sırayla yap, bitenleri işaretle.”</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Çeşitlemeler</h3>
+      <ul>
+        <li><b>Branch başına not:</b> son satırdaki <code>NOTLAR.md</code> yerine <code>NOTLAR-$(git branch --show-current | tr / -).md</code> yaz. <code>tr</code>, <code>feature/x</code> gibi adlardaki <code>/</code> işaretini <code>-</code> yapar.</li>
+        <li><b>Obsidian yoksa:</b> <code>NOT_KOKU="$HOME/notlar"</code>.</li>
+        <li><b>Daha büyük pencere:</b> <code>width = "90%"</code>, <code>height = "90%"</code>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TARİF -->
+<section class="blk" id="tarif">
+  <div class="sh"><span class="n">04</span><h2>Ajanına verilecek tarif</h2></div>
+  <p class="sub">Aşağıdaki metni olduğu gibi Claude Code, Codex ya da başka bir kodlama ajanına yapıştır. Ajan not klasörünü sana sorar, dosyaları yedekleyerek değiştirir, kurulumu doğrular ve ne yaptığını raporlar.</p>
+
+  <div class="pbox">
+    <div class="ph"><b>Tarif</b><small>Herdr TUI · macOS / Linux</small><button class="tbtn" id="copyBtn" type="button">Kopyala</button></div>
+<pre><code id="prompt">Herdr TUI'ye (`herdr` komutu, ayarlar ~/.config/herdr/config.toml) bir "proje notları" kısayolu eklemeni istiyorum. Aşağıdaki tarifi uygula, her adımı doğrula ve sonunda kısa bir rapor ver.
+
+## Amaç
+- Herdr içinde control+b, sonra m'ye basınca, odaktaki pane'in ait olduğu git deposunun not dosyası ekranın üstünde açılan bir pencerede (popup) terminal editörüyle açılsın.
+- Notlar proje klasörüne yazılmasın. Hepsi tek bir not kökünde toplansın: &lt;NOT_KOKU&gt;/&lt;repo-adı&gt;/NOTLAR.md
+- Repo adı git'in ortak dizininden bulunsun. Böylece worktree'ler ana deponun notunu paylaşır. Submodule'de submodule klasörünün adı, git dışı bir klasörde o klasörün adı kullanılsın.
+
+## Başlamadan önce
+1. `herdr --version` ile Herdr TUI'nin kurulu olduğunu kontrol et. Sürüm 0.9.5 ya da üstü olmalı; değilse dur ve bana söyle.
+2. `git --version` en az 2.31 olmalı (`--path-format=absolute` için).
+3. Editör: `micro` kuruluysa onu kullan. Kurulu değilse `brew install micro` önerip bana sor; istemezsem `nano` kullan.
+4. Not kökünü bana sor, tahmin etme. Obsidian kullanıyorsam önerin "&lt;vault yolu&gt;/PROJE_NOTLARIM" olsun. macOS'ta vault yolları ~/Library/Application Support/obsidian/obsidian.json dosyasında yazar; oradan bulursan bana onaylat.
+5. Kısayol çakışmasını kontrol et: `herdr --default-config | grep -n '"prefix+m"'` ve `grep -n 'prefix+m' ~/.config/herdr/config.toml` ikisi de boş dönmeli. Doluysa boş bir harf öner ve bana sor.
+
+## Kurulum
+6. ~/.config/herdr/scripts/proje-notu.sh dosyasını aşağıdaki içerikle oluştur, NOT_KOKU ve EDITOR_KOMUTU satırlarını benim cevaplarıma göre doldur ve `chmod +x` yap:
+
+#!/bin/sh
+# Herdr kısayolu (control+b, m): odaktaki pane'in git deposuna ait notu açar.
+NOT_KOKU="$HOME/Documents/Obsidian Vault/PROJE_NOTLARIM"
+EDITOR_KOMUTU="micro"
+ad=""
+if ortak=$(git rev-parse --path-format=absolute --git-common-dir 2&gt;/dev/null); then
+  if [ "$(basename "$ortak")" = ".git" ]; then
+    ad=$(basename "$(dirname "$ortak")")
+  else
+    ad=$(basename "$(git rev-parse --show-toplevel)")
+  fi
+fi
+[ -n "$ad" ] || ad=$(basename "$PWD")
+if command -v python3 &gt;/dev/null 2&gt;&amp;1; then
+  ad=$(printf '%s' "$ad" | python3 -I -c 'import sys,unicodedata; sys.stdout.write(unicodedata.normalize("NFD", sys.stdin.read()))')
+fi
+mkdir -p "$NOT_KOKU/$ad"
+exec $EDITOR_KOMUTU "$NOT_KOKU/$ad/NOTLAR.md"
+
+7. ~/.config/herdr/config.toml dosyasının önce yedeğini al (aynı klasöre .bak-&lt;tarih-saat&gt; ekiyle). Dosya yoksa oluştur. Sonra sonuna şunu ekle:
+
+# Proje notları: control+b, sonra m
+[[keys.command]]
+key = "prefix+m"
+type = "popup"
+command = "~/.config/herdr/scripts/proje-notu.sh"
+description = "proje notları"
+width = "70%"
+height = "70%"
+
+8. `herdr config check` çalıştır, "config: ok" görmelisin. Sonra Herdr sunucusu çalışıyorsa `herdr server reload-config` ile ayarları yükle.
+
+## Doğrulama
+9. Script'in, editörü açmak ve klasör oluşturmak yerine yalnızca hedef yolu yazdıran geçici bir kopyasını oluştur. Bu kopyayı şu klasörlerde çalıştırıp çıkan yolları bana göster: bir git deposunun kökü, aynı deponun bir alt klasörü, git dışı bir klasör (ör. /tmp) ve geçici bir test deposunda açtığın bir worktree. Worktree'nin yolu ana deponun adını göstermeli. Test deposunu ve geçici kopyayı sonra sil.
+
+## Yapma
+- Hiçbir .gitignore dosyasına (genel ~/.gitignore_global dahil) NOTLAR.md ekleme. Notlar proje klasörüne yazılmadığı için gerek yok; genel bir kural başka projelerdeki NOTLAR.md dosyalarını da gizler.
+- Var olan bir not dosyasının üzerine yazma, var olan bir dosyayı silme.
+- `herdr server stop` çalıştırma ve Herdr'ı yeniden başlatma; açık ajanlarım kapanır.
+- Benim onayım olmadan bir şey kurma.
+
+## Rapor
+- Not kökü, editör ve kısayol.
+- Oluşturduğun ve değiştirdiğin dosyalar, yedeklerin yolu.
+- 9. adımdaki test sonuçları.
+- Kullanım: control+b sonra m ile aç; micro'da control+s kaydeder, control+q kapatır.</code></pre>
+  </div>
+  <p class="c" style="margin-top:10px;font-size:14px">Tarif yalnızca Herdr TUI içindir. Herdr masaüstü uygulamasının (<code>herdr-app</code>) ayarları <code>~/.config/herdr-app</code> klasöründe ve farklı bir biçimde tutulur.</p>
+</section>
+
+<!-- SORUNLAR -->
+<section class="blk" id="sorun">
+  <div class="sh"><span class="n">05</span><h2>Sorun giderme</h2></div>
+  <div class="grid g2">
+    <div class="card"><h3>Not penceresi kapanmıyor</h3><p>Pencere, içindeki editör kapanınca kapanır. micro'da <kbd>⌃Q</kbd> bas; <kbd>Esc</kbd> çıkış tuşu değil. Olmazsa <kbd>⌃E</kbd> bas, <code>quit</code> yazıp <kbd>↩</kbd> bas.</p></div>
+    <div class="card"><h3>Kısayol hiçbir şey yapmıyor</h3><p><code>herdr config check</code> ve <code>herdr server reload-config</code> çalıştır. <kbd class="p">⌃B</kbd><span class="th">›</span><kbd>?</kbd> yardım ekranında "proje notları" görünmeli. Script'in çalıştırılabilir olduğundan emin ol: <code>ls -l ~/.config/herdr/scripts/</code>.</p></div>
+    <div class="card"><h3>Yanlış projenin notu açılıyor</h3><p>Not, <b>odaktaki</b> pane'in klasörüne göre seçilir. Önce notunu açmak istediğin projenin pane'ine tıkla, sonra kısayola bas.</p></div>
+    <div class="card"><h3>Not, proje dışı bir klasör adıyla açıldı</h3><p>Pane git deposu olmayan bir klasördeydi, not o klasörün adıyla açıldı. Pane'de <code>cd</code> ile projeye geç ya da Herdr'ı proje klasöründen başlat.</p></div>
+  </div>
+</section>
+
+<footer>
+  <span>Resmî olmayan Türkçe kılavuzun tarif sayfası. Herdr TUI 0.9.5'in <a href="https://herdr.dev/tui/docs/configuration/#custom-command-keybindings">özel kısayol</a> özelliği kullanılır.</span>
+  <span><a href="../">← Kılavuza dön</a></span>
+</footer>
+</main>
+
+<script>
+(function(){
+  var store = {
+    get: function(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+    set: function(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  };
+  var root = document.documentElement, btn = document.getElementById('themeBtn');
+  var modes = ['auto','light','dark'], names = {auto:'otomatik', light:'açık', dark:'koyu'};
+  function applyTheme(m){
+    if (m === 'auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', m);
+    btn.textContent = 'Tema: ' + names[m];
+  }
+  var mode = store.get('herdr-tr-theme') || 'auto';
+  if (modes.indexOf(mode) < 0) mode = 'auto';
+  applyTheme(mode);
+  btn.addEventListener('click', function(){
+    mode = modes[(modes.indexOf(mode) + 1) % modes.length];
+    applyTheme(mode); store.set('herdr-tr-theme', mode);
+  });
+
+  // Tarifi kopyala
+  var copyBtn = document.getElementById('copyBtn'), prompt = document.getElementById('prompt');
+  function done(ok){
+    copyBtn.textContent = ok ? 'Kopyalandı ✓' : 'Seçildi, ⌘C ile kopyala';
+    copyBtn.classList.toggle('ok', ok);
+    setTimeout(function(){ copyBtn.textContent = 'Kopyala'; copyBtn.classList.remove('ok'); }, 2200);
+  }
+  function selectPrompt(){
+    var r = document.createRange(); r.selectNodeContents(prompt);
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  }
+  copyBtn.addEventListener('click', function(){
+    var text = prompt.textContent;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ selectPrompt(); done(false); });
+    } else { selectPrompt(); done(false); }
+  });
+
+  // Aktif bölüm
+  var links = Array.prototype.slice.call(document.querySelectorAll('#nav a'));
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting) links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    document.querySelectorAll('section.blk').forEach(function(s){ io.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
