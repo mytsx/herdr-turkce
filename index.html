@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Herdr Türkçe Kılavuz</title>
+<meta name="description" content="Herdr için Türkçe kısayol kartı, hc komutları, taktikler ve altın kurallar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4ef; --bg2:#ffffff; --bg3:#efece4; --line:#ddd8cc; --fg:#1d1b17; --dim:#6b665b;
+  --accent:#c2541b; --accent-soft:#f6e3d6; --code:#2a2722;
+  --blocked:#d1342f; --done:#2f8f5b; --working:#c98a0b; --idle:#8a857a;
+  --kbd-bg:#ffffff; --kbd-line:#cfc8b8; --kbd-shadow:#bdb5a2;
+  --shadow:0 1px 0 rgba(0,0,0,.03),0 8px 24px -16px rgba(60,40,10,.25);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15140f; --bg2:#1d1c16; --bg3:#26241d; --line:#35322a; --fg:#ece8dd; --dim:#9a9486;
+    --accent:#f08a4b; --accent-soft:#3a2516; --code:#ece8dd;
+    --blocked:#ff6b5f; --done:#5ccf8c; --working:#f2b84b; --idle:#8f897b;
+    --kbd-bg:#2b2921; --kbd-line:#47443a; --kbd-shadow:#0d0c09;
+    --shadow:0 1px 0 rgba(255,255,255,.02),0 10px 30px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15140f; --bg2:#1d1c16; --bg3:#26241d; --line:#35322a; --fg:#ece8dd; --dim:#9a9486;
+  --accent:#f08a4b; --accent-soft:#3a2516; --code:#ece8dd;
+  --blocked:#ff6b5f; --done:#5ccf8c; --working:#f2b84b; --idle:#8f897b;
+  --kbd-bg:#2b2921; --kbd-line:#47443a; --kbd-shadow:#0d0c09;
+  --shadow:0 1px 0 rgba(255,255,255,.02),0 10px 30px -18px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 "IBM Plex Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+code,pre,kbd,.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+code{font-size:.86em;background:var(--bg3);padding:.1em .38em;border-radius:5px;color:var(--code);white-space:nowrap}
+pre{margin:10px 0 0;background:var(--bg3);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;font-size:12.8px;line-height:1.55}
+pre code{background:none;padding:0;white-space:pre;font-size:inherit}
+.c{color:var(--dim)}
+kbd{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 6px;margin:0 1px;font-size:12px;font-weight:600;background:var(--kbd-bg);border:1px solid var(--kbd-line);border-bottom-width:2px;border-radius:6px;box-shadow:0 1px 0 var(--kbd-shadow);color:var(--fg);line-height:1}
+.or{color:var(--dim);font-size:12px;margin:0 4px}
+
+/* top bar */
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center}
+.brand{font-weight:700;letter-spacing:-.01em;white-space:nowrap;display:flex;align-items:center;gap:8px;color:var(--fg);text-decoration:none}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+nav.sec{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+nav.sec::-webkit-scrollbar{display:none}
+nav.sec a{color:var(--dim);text-decoration:none;font-size:13.5px;padding:6px 10px;border-radius:8px;white-space:nowrap}
+nav.sec a:hover,nav.sec a.on{color:var(--fg);background:var(--bg3)}
+.tbtn{border:1px solid var(--line);background:var(--bg2);color:var(--fg);border-radius:8px;height:32px;padding:0 10px;font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+.tbtn:hover{border-color:var(--accent)}
+
+main{max-width:1180px;margin:0 auto;padding:0 16px 80px}
+
+/* hero */
+.hero{padding:56px 0 28px;display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:end}
+.hero h1{font-size:clamp(34px,5.4vw,58px);line-height:1.02;letter-spacing:-.035em;margin:0 0 14px;font-weight:700}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p.lead{font-size:17px;color:var(--dim);margin:0;max-width:56ch}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.chip{font-size:12px;border:1px solid var(--line);background:var(--bg2);padding:3px 9px;border-radius:999px;color:var(--dim)}
+.legend{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.legend h3{margin:0 0 10px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim)}
+.legend ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;font-size:13.5px}
+.legend li{display:flex;align-items:center;gap:8px}
+
+/* search */
+.search{position:relative;margin:8px 0 6px}
+.search input{width:100%;height:48px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--fg);font:inherit;font-size:16px;padding:0 16px 0 44px;box-shadow:var(--shadow)}
+.search input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.search svg{position:absolute;left:15px;top:15px;color:var(--dim)}
+.search .hint{position:absolute;right:12px;top:12px;font-size:12px;color:var(--dim)}
+.nores{display:none;color:var(--dim);padding:20px 0}
+
+section.blk{padding-top:44px}
+.sh{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.sh .n{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--accent);font-weight:600}
+.sh h2{margin:0;font-size:28px;letter-spacing:-.02em}
+.sub{color:var(--dim);margin:0 0 18px;max-width:75ch}
+
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);min-width:0}
+.card h3{margin:0 0 8px;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.card p{margin:0 0 8px}
+.card p:last-child{margin-bottom:0}
+.card ul{margin:6px 0 0;padding-left:18px}
+.card li{margin:3px 0}
+.tag{font-size:11px;font-weight:600;padding:2px 7px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-family:"JetBrains Mono",monospace}
+
+/* hierarchy */
+.tree{display:flex;align-items:stretch;gap:0;margin:4px 0 16px;flex-wrap:wrap}
+.tree .lv{flex:1 1 160px;background:var(--bg2);border:1px solid var(--line);padding:12px 14px;position:relative;min-width:0}
+.tree .lv:first-child{border-radius:14px 0 0 14px}
+.tree .lv:last-child{border-radius:0 14px 14px 0}
+.tree .lv + .lv{border-left:none}
+.tree .lv b{display:block;font-size:15px}
+.tree .lv span{font-size:13px;color:var(--dim)}
+.tree .lv i{font-style:normal;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--accent);display:block;margin-bottom:2px}
+
+/* statuses */
+.st{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.st .card{border-top:4px solid var(--c)}
+.st .card h3 code{background:none;padding:0;color:var(--c);font-size:15px}
+.pill{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c)}
+.prio{margin-top:14px;font-size:14px;color:var(--dim)}
+.prio b{color:var(--fg)}
+
+/* shortcut tables */
+.ks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.kt{background:var(--bg2);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;min-width:0}
+.kt h3{margin:0;padding:12px 16px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--line);background:var(--bg3);display:flex;justify-content:space-between;align-items:center}
+.kt h3 small{text-transform:none;letter-spacing:0;font-weight:400}
+.r{display:grid;grid-template-columns:minmax(150px,auto) 1fr;gap:12px;align-items:center;padding:8px 16px;border-bottom:1px solid var(--line)}
+.r:last-child{border-bottom:none}
+.r .k{display:flex;flex-wrap:wrap;align-items:center;gap:2px}
+.r .d{font-size:14px}
+.r .d small{display:block;color:var(--dim);font-size:12.5px;line-height:1.4}
+.r.cmd{grid-template-columns:1fr;gap:2px}
+.r.cmd code{white-space:normal;word-break:break-word;font-size:12.8px;background:none;padding:0;color:var(--accent);font-weight:500}
+.hidden{display:none!important}
+
+.callout{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--accent);background:var(--accent-soft);border-radius:14px;padding:14px 16px;margin-top:14px}
+.callout .ic{font-size:20px;line-height:1.2}
+.callout p{margin:0}
+
+/* tactics */
+.tac{counter-reset:t}
+.tac .card{position:relative;padding-left:58px}
+.tac .card::before{counter-increment:t;content:counter(t,decimal-leading-zero);position:absolute;left:18px;top:16px;font-family:"JetBrains Mono",monospace;font-weight:600;color:var(--accent);font-size:14px}
+
+/* rules */
+.rules{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.rules li{display:grid;grid-template-columns:28px 1fr;gap:10px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.rules li .x{font-weight:700;color:var(--accent);font-family:"JetBrains Mono",monospace;font-size:13px;padding-top:2px}
+.rules li b{display:block}
+.rules li span{color:var(--dim);font-size:14px}
+
+/* files table */
+table.ft{width:100%;border-collapse:collapse;font-size:14px}
+table.ft th,table.ft td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+table.ft th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);font-weight:600}
+table.ft tr:last-child td{border-bottom:none}
+.tw{overflow-x:auto;background:var(--bg2);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+
+/* path */
+.path{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.path li{display:flex;gap:12px;align-items:flex-start;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.path input{appearance:none;-webkit-appearance:none;flex:none;width:20px;height:20px;border-radius:6px;border:2px solid var(--kbd-line);margin:2px 0 0;cursor:pointer;display:grid;place-items:center;background:var(--bg)}
+.path input:checked{background:var(--done);border-color:var(--done)}
+.path input:checked::after{content:"";width:6px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.path li.ok .t{opacity:.55;text-decoration:line-through;text-decoration-color:var(--dim)}
+.path .t b{display:block}
+.path .t span{color:var(--dim);font-size:14px}
+.prog{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:14px;color:var(--dim)}
+.bar{flex:1;height:8px;background:var(--bg3);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.bar i{display:block;height:100%;width:0;background:var(--done);transition:width .3s}
+
+footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);color:var(--dim);font-size:13px;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;padding-top:36px}
+  .ks,.g2,.g3{grid-template-columns:1fr}
+  .st{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tree .lv{flex-basis:100%;border-radius:0!important;border-left:1px solid var(--line)!important}
+  .tree .lv + .lv{border-top:none}
+  .tree .lv:first-child{border-radius:14px 14px 0 0!important}
+  .tree .lv:last-child{border-radius:0 0 14px 14px!important}
+}
+@media (max-width:560px){
+  .brand span.full{display:none}
+  .r{grid-template-columns:1fr;gap:4px}
+  .st{grid-template-columns:1fr}
+  .legend ul{grid-template-columns:1fr}
+  .search .hint{display:none}
+  .tac .card{padding-left:18px;padding-top:40px}
+}
+@media print{
+  header.top,.search,.tbtn{display:none}
+  body{background:#fff;color:#000}
+  .card,.kt,.rules li,.path li{box-shadow:none;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#"><span class="dot"></span><span>Herdr</span><span class="full" style="color:var(--dim);font-weight:500">TR</span></a>
+    <nav class="sec" id="nav">
+      <a href="#kavramlar">Kavramlar</a>
+      <a href="#kisayollar">Kısayollar</a>
+      <a href="#hc">hc</a>
+      <a href="#taktikler">Taktikler</a>
+      <a href="#kurallar">Kurallar</a>
+      <a href="#ozellestir">Özelleştirme</a>
+      <a href="#yol">Öğrenme yolu</a>
+      <a href="#kaynaklar">Kaynaklar</a>
+    </nav>
+    <button class="tbtn" id="themeBtn" type="button" aria-label="Tema değiştir">Tema: otomatik</button>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div>
+    <h1>Herdr'ı <em>ezbere</em> kullan.</h1>
+    <p class="lead">Kısayollar, <code>hc</code> komutları, iş akışı taktikleri ve altın kurallar. Hepsi Türkçe, hepsi tek sayfada. Sayfanın üstündeki arama kutusu kısayolları ve komutları anında süzer.</p>
+    <div class="chips">
+      <span class="chip">Herdr 0.1.15</span>
+      <span class="chip">hc 0.1.21</span>
+      <span class="chip">macOS varsayılan tuşları</span>
+      <span class="chip">Kasım 2026</span>
+      <span class="chip">Resmî değildir</span>
+    </div>
+  </div>
+  <div class="legend">
+    <h3>Tuş simgeleri</h3>
+    <ul>
+      <li><kbd>⌘</kbd> Command</li>
+      <li><kbd>⌥</kbd> Option (Alt)</li>
+      <li><kbd>⌃</kbd> Control</li>
+      <li><kbd>⇧</kbd> Shift</li>
+      <li><kbd>↩</kbd> Enter</li>
+      <li><kbd>⌫</kbd> Backspace</li>
+    </ul>
+  </div>
+</section>
+
+<div class="search">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+  <input id="q" type="search" placeholder="Kısayol veya komut ara: böl, zoom, wait, worktree…" autocomplete="off" aria-label="Kısayol ve komut ara">
+  <span class="hint"><kbd>/</kbd> odakla</span>
+</div>
+
+<!-- KAVRAMLAR -->
+<section class="blk" id="kavramlar">
+  <div class="sh"><span class="n">01</span><h2>Temel kavramlar</h2></div>
+  <p class="sub">Herdr iki ayrı programdan oluşur. Bunu kavradığında geri kalan her şey yerine oturur.</p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>🪟 Herdr <span class="tag">herdr-app</span></h3>
+      <p>Pencere. Space, tab ve pane'leri <b>gösterir ve düzenler</b>. Layout, tema, kısayol ve mod'lar burada yaşar (<code>~/.config/herdr-app</code>).</p>
+    </div>
+    <div class="card">
+      <h3>⚙️ herdr-core <span class="tag">hc</span></h3>
+      <p>Küçük yerel sunucu. Terminalleri ve ajanları <b>çalıştırır</b>. Pencereyi kapatsan, güncellesen, hatta uygulama çökse bile ajanlar çalışmaya devam eder.</p>
+      <p class="c" style="font-size:13.5px">Yeniden başlatma ya da <code>hc server stop</code> ajanları durdurur. Pane'ler aynı klasörde bir shell ile geri gelir ama ajan kaldığı yerden devam etmez.</p>
+    </div>
+  </div>
+
+  <h3 style="margin:26px 0 10px;font-size:17px">Hiyerarşi</h3>
+  <div class="tree">
+    <div class="lv"><i>makine</i><b>Bu Mac ya da SSH sunucusu</b><span>Her makinenin kendi space'leri vardır. Hepsi aynı sidebar'da görünür.</span></div>
+    <div class="lv"><i>space</i><b>Repo başına bir space</b><span>Çalışma yeri. Adını vermezsen ilk terminalin bulunduğu repo veya klasörün adını alır.</span></div>
+    <div class="lv"><i>tab</i><b>İş başına bir tab</b><span>Space içindeki bir iş: bölünmüş terminaller. Son tab kapanınca space de kapanır.</span></div>
+    <div class="lv"><i>pane</i><b>Terminal ya da mod paneli</b><span>Terminal pane'ini kapatmak terminali öldürür. Program çıkınca pane kapanır.</span></div>
+  </div>
+
+  <div class="grid g3">
+    <div class="card"><h3>🤖 Ajan</h3><p>Durumunu <b>OSC 7501</b> ile bildiren her terminal: Claude Code, Codex vb. Bildirim yapmayan programlar da çalışır, sadece durum göstermezler.</p></div>
+    <div class="card"><h3>🧩 Alt ajan</h3><p>Bir ajanın <code>hc run</code> ile başlattığı terminal. Ebeveyninin tab'ına aittir, kendi pane'i yoktur. <b>Peek</b> ile bakılır, istersen tab'a alınır.</p></div>
+    <div class="card"><h3>📍 Adres</h3><p>Her terminalin bir adresi vardır: <code>t7</code>, <code>t1b</code>, bir isim (<code>review</code>) ya da uzak makinede <code>vps/t7</code>.</p></div>
+  </div>
+
+  <h3 style="margin:26px 0 10px;font-size:17px">Ajan durumları</h3>
+  <div class="st">
+    <div class="card" style="--c:var(--blocked)"><h3><span class="pill"></span><code>blocked</code></h3><p><b>Seni bekliyor.</b> İzin istiyor ya da soru soruyor. Ekranı oku, kararı sen ver.</p></div>
+    <div class="card" style="--c:var(--done)"><h3><span class="pill"></span><code>done</code></h3><p><b>Sen bakmıyorken bitirdi.</b> Baktığın an <code>idle</code> olur.</p></div>
+    <div class="card" style="--c:var(--working)"><h3><span class="pill"></span><code>working</code></h3><p><b>Çalışıyor.</b> Dokunma, başka işe geç.</p></div>
+    <div class="card" style="--c:var(--idle)"><h3><span class="pill"></span><code>idle</code></h3><p><b>Boşta.</b> Yeni görev bekliyor.</p></div>
+  </div>
+  <div class="prio">Tab ve space, içindeki en acil ajanın durumunu gösterir: <b>blocked</b> › <b>done</b> › <b>working</b> › <b>idle</b>. Ajan seni beklediğinde ya da sen bakmıyorken bitirdiğinde ses çalar ve tıklanabilir bir bildirim çıkar.</div>
+</section>
+
+<!-- KISAYOLLAR -->
+<section class="blk" id="kisayollar">
+  <div class="sh"><span class="n">02</span><h2>Kısayollar</h2></div>
+  <p class="sub">Liste, macOS'taki varsayılan <code>keys.json</code> dosyasından alındı. Kendi makinendeki güncel listeyi görmek için <kbd>⌘</kbd><kbd>/</kbd> ile yardım panelini aç. O panel her zaman senin gerçek tuşlarını gösterir.</p>
+
+  <div class="ks" data-f>
+    <div class="kt">
+      <h3>En sık kullanılanlar <small>önce bunları ezberle</small></h3>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>P</kbd></div><div class="d">Hızlı geçiş<small>Tab, space ya da ajan ara ve oraya atla</small></div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>P</kbd></div><div class="d">Komut paleti<small>Her komut burada, tuşu olmayanlar da</small></div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>]</kbd><span class="or">/</span><kbd>⌘</kbd><kbd>[</kbd></div><div class="d">Sonraki / önceki ajan<small>Ajan listesinin sırasını izler</small></div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>/</kbd></div><div class="d">Kısayol listesi<small>Yazarak süzülebilir. Esc ile kapanır.</small></div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>↩</kbd></div><div class="d">Pane'i büyüt (zoom)<small>Tekrar basınca eski düzene döner</small></div></div>
+    </div>
+
+    <div class="kt">
+      <h3>Space <small>repo düzeyi</small></h3>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>N</kbd></div><div class="d">Yeni space</div></div>
+      <div class="r"><div class="k"><kbd>⌃</kbd><kbd>1</kbd>…<kbd>9</kbd></div><div class="d">1–9. space'e git</div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>⌥</kbd><kbd>]</kbd></div><div class="d">Sonraki space</div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>⌥</kbd><kbd>[</kbd></div><div class="d">Önceki space</div></div>
+      <div class="r"><div class="k"><kbd>⇧</kbd><kbd>F2</kbd></div><div class="d">Space'i yeniden adlandır<small>Boş ad verirsen Herdr'ın verdiği ada döner</small></div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>B</kbd></div><div class="d">Sidebar'ı aç / kapat</div></div>
+    </div>
+
+    <div class="kt">
+      <h3>Tab <small>iş düzeyi</small></h3>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>T</kbd></div><div class="d">Yeni tab</div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>W</kbd></div><div class="d">Tab'ı kapat<small>Son tab ise space de kapanır, önce sorar</small></div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>1</kbd>…<kbd>9</kbd></div><div class="d">1–9. tab'a git</div></div>
+      <div class="r"><div class="k"><kbd>⌃</kbd><kbd>Tab</kbd><span class="or">ya da</span><kbd>⌘</kbd><kbd>⇧</kbd><kbd>]</kbd></div><div class="d">Sonraki tab</div></div>
+      <div class="r"><div class="k"><kbd>⌃</kbd><kbd>⇧</kbd><kbd>Tab</kbd><span class="or">ya da</span><kbd>⌘</kbd><kbd>⇧</kbd><kbd>[</kbd></div><div class="d">Önceki tab</div></div>
+      <div class="r"><div class="k"><kbd>F2</kbd></div><div class="d">Tab'ı yeniden adlandır<small>“fix login” gibi işin adını ver</small></div></div>
+    </div>
+
+    <div class="kt">
+      <h3>Pane <small>bölme ve gezinme</small></h3>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>D</kbd></div><div class="d">Sağa böl</div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>D</kbd></div><div class="d">Aşağı böl</div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>W</kbd></div><div class="d">Pane'i kapat<small>Terminal pane'i ise terminali de öldürür</small></div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>↩</kbd></div><div class="d">Zoom aç / kapat</div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>⌥</kbd><kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd></div><div class="d">O yöndeki pane'e geç<small>O kenarda en son odaklanılan pane'i tercih eder</small></div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>⌥</kbd><kbd>⇧</kbd><kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd></div><div class="d">O yöndeki pane'le yer değiştir<small>Odak aynı pane'de kalır</small></div></div>
+    </div>
+
+    <div class="kt">
+      <h3>Terminal içinde <small>terminal odaktayken</small></h3>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>F</kbd></div><div class="d">Terminalde ara<small>Ekran ve geçmişte arar. <kbd>↩</kbd> sonraki, <kbd>⇧</kbd><kbd>↩</kbd> önceki, Esc kapatır. Her terminal kendi aramasını hatırlar.</small></div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>C</kbd></div><div class="d">Kopyala</div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>V</kbd></div><div class="d">Yapıştır<small>Finder'dan kopyalanan dosyalar sürükle-bırak gibi yapıştırılır</small></div></div>
+      <div class="r"><div class="k"><kbd>⌃</kbd><kbd>V</kbd></div><div class="d">Görsel yapıştır<small>Uzak makinedeki terminale de olur: görsel oraya kopyalanır, yolu yapıştırılır</small></div></div>
+      <div class="r"><div class="k"><kbd>⌥</kbd><kbd>←</kbd><span class="or">/</span><kbd>⌥</kbd><kbd>→</kbd></div><div class="d">Bir kelime geri / ileri</div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>←</kbd><span class="or">/</span><kbd>⌘</kbd><kbd>→</kbd></div><div class="d">Satır başı / sonu</div></div>
+      <div class="r"><div class="k"><kbd>⌥</kbd><kbd>⌫</kbd></div><div class="d">Önceki kelimeyi sil</div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>⌫</kbd></div><div class="d">İmlecin solundaki satırı sil</div></div>
+    </div>
+
+    <div class="kt">
+      <h3>Uygulama ve pencere</h3>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd></div><div class="d">Layout değiştir<small>main, terminals, win98 ve kendi eklediklerin arasında döner</small></div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>,</kbd></div><div class="d">Ayarlar<small>Görünüm, makineler, uyarılar, güncellemeler, gizlilik</small></div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>=</kbd><span class="or">/</span><kbd>⌘</kbd><kbd>-</kbd></div><div class="d">Yakınlaştır / uzaklaştır<small>Tüm uygulamayı ölçekler</small></div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>0</kbd></div><div class="d">Yakınlaştırmayı sıfırla</div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>H</kbd><span class="or">/</span><kbd>⌘</kbd><kbd>⌥</kbd><kbd>H</kbd></div><div class="d">Gizle / diğerlerini gizle</div></div>
+      <div class="r"><div class="k"><kbd>⌘</kbd><kbd>Q</kbd></div><div class="d">Çık<small>Ajanlar çalışmaya devam eder</small></div></div>
+    </div>
+
+    <div class="kt">
+      <h3>Fare hareketleri</h3>
+      <div class="r"><div class="k"><kbd>⌘</kbd>+tık</div><div class="d">Terminal metnindeki adrese bak<small>Ekrandaki <code>t7</code> gibi canlı bir adrese tıkla, o terminal peek olarak açılır</small></div></div>
+      <div class="r"><div class="k"><kbd>⇧</kbd>+sağ tık</div><div class="d">Herdr menüsü<small>Program fareyi yakalasa bile her zaman çalışır</small></div></div>
+      <div class="r"><div class="k"><kbd>⇧</kbd>+sürükle</div><div class="d">Metin seç<small>vim veya htop gibi fareyi yakalayan programlarda</small></div></div>
+      <div class="r"><div class="k">Sürükle</div><div class="d">Space'leri sırala<small>Açık sidebar'da, aynı makine içinde</small></div></div>
+      <div class="r"><div class="k">Tab bar <kbd>+</kbd></div><div class="d">Terminal ya da kurulu bir ajan başlat<small>New worktree… ve Open worktree… da burada</small></div></div>
+    </div>
+
+    <div class="kt">
+      <h3>hc attach ve kaçış</h3>
+      <div class="r"><div class="k"><kbd>⌃</kbd><kbd>\</kbd></div><div class="d">Terminalden ayrıl (detach)<small><code>hc attach</code> ile bağlandığın terminalden çıkar. Program çalışmaya devam eder.</small></div></div>
+      <div class="r"><div class="k"><kbd>⌃</kbd><kbd>⌥</kbd><kbd>⇧</kbd><kbd>Esc</kbd></div><div class="d">Kaçış kapısı<small>Gösterilen layout'u ve <code>keys.json</code>'u kenara alır (<code>*.reset-&lt;zaman&gt;</code>), varsayılan <code>main</code>'e döner. Bu tuş değiştirilemez.</small></div></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="ic">⌨️</div>
+    <p><b>Türkçe Q klavye notu:</b> macOS'ta <code>option_as_alt</code> varsayılan olarak <code>"auto"</code>'dur. Bu ayar Option'ı yalnızca US ve ABC düzenlerinde Alt gibi davrandırır. Türkçe düzende Option, <code>@</code> ve <code>[</code> gibi karakterleri yazmaya devam eder. Terminal programlarında Alt kısayollarına ihtiyacın varsa <code>settings.json</code>'a <code>"option_as_alt": "left"</code> yaz: sol Option Alt olur, sağ Option karakter yazmaya devam eder.</p>
+  </div>
+</section>
+
+<!-- HC -->
+<section class="blk" id="hc">
+  <div class="sh"><span class="n">03</span><h2>hc komutları</h2></div>
+  <p class="sub"><code>hc</code> herdr-core'u yönetir. Terminal başlatır, okur, mesaj gönderir, bekler ve uzak makinelerle çalışır. <code>&lt;t&gt;</code> bir adres (<code>t7</code>), bir isim ya da <code>vps/t7</code> olabilir. Her komutun ayrıntısı için <code>hc &lt;komut&gt; --help</code>.</p>
+
+  <div class="ks" data-f>
+    <div class="kt">
+      <h3>Terminaller</h3>
+      <div class="r cmd"><code>hc</code><div class="d">Bir terminal seç ve ona bağlan. Listenin başında “new…” seçeneği vardır.</div></div>
+      <div class="r cmd"><code>hc run cargo test</code><div class="d">Çalıştırır, shell gibi bekler, çıktıyı akıtır ve çıkış kodunu döndürür. Tırnak içindeki tek bir dize shell komutu olarak çalışır.</div></div>
+      <div class="r cmd"><code>hc run --bg --name web bun dev</code><div class="d">Arka planda başlatır. Program çıktığında bir not gelir.</div></div>
+      <div class="r cmd"><code>hc run --keep …</code> · <code>hc keep &lt;t&gt; [--off]</code><div class="d">Program kaybolursa yerine bir shell koyar. Görevi asla yeniden çalıştırmaz.</div></div>
+      <div class="r cmd"><code>hc ls</code> · <code>hc ls --all</code><div class="d">Canlı terminalleri listeler. <code>--all</code> bitmiş olanları da gösterir.</div></div>
+      <div class="r cmd"><code>hc get &lt;t&gt;</code><div class="d">Tek bir terminalin durumunu ve bulunduğu klasörü gösterir.</div></div>
+      <div class="r cmd"><code>hc attach t3</code><div class="d">Bu terminali t3'e bağlar ve kontrolü sana verir. <kbd>⌃</kbd><kbd>\</kbd> ile ayrılırsın.</div></div>
+      <div class="r cmd"><code>hc read t3 --lines 100</code><div class="d">Ekranı ve geçmişi yazdırır. <code>--lines 0</code> yalnızca görünen ekranı verir.</div></div>
+      <div class="r cmd"><code>hc kill &lt;t&gt;</code> · <code>hc rm &lt;t&gt;</code><div class="d">Programı sonlandırır, ardından bitmiş terminali kaldırır.</div></div>
+      <div class="r cmd"><code>hc label &lt;t&gt; k=v</code><div class="d">Etiket ekler. <code>herdr.space=&lt;id&gt;</code> ve <code>herdr.tab=&lt;id&gt;</code> etiketleri terminali pencerede gösterir.</div></div>
+    </div>
+
+    <div class="kt">
+      <h3>Programla konuşmak ve beklemek</h3>
+      <div class="r cmd"><code>hc send review "İlk hataya odaklan"</code><div class="d">Metni yapıştırır ve Enter'a basar. <code>--wait</code> ile işi bitene kadar bekler.</div></div>
+      <div class="r cmd"><code>hc keys t3 down enter</code><div class="d">Tuşa basar: <code>enter</code>, <code>esc</code>, <code>up</code>, <code>ctrl+c</code>…</div></div>
+      <div class="r cmd"><code>hc interrupt review</code><div class="d">Ajanın o anki turunu durdurur, süreci öldürmez. Ne olduğunu raporlar.</div></div>
+      <div class="r cmd"><code>hc wait &lt;t&gt;</code><div class="d">Ajan çalışmayı bırakana ya da program çıkana kadar bekler. <b>sleep yerine bunu kullan.</b></div></div>
+      <div class="r cmd"><code>hc wait web --output ready</code><div class="d">Program “ready” yazana kadar bekler. Yalnızca bekleme başladıktan sonraki çıktıya bakar.</div></div>
+      <div class="r cmd"><code>hc wait --children all</code> · <code>--children any</code><div class="d">Tüm yardımcılar bitene kadar ya da ilk haber gelene kadar bekler. Varsayılan zaman aşımı 180 sn'dir; bu bir hata değil, kontrol noktasıdır.</div></div>
+      <div class="r cmd"><code>hc put &lt;t&gt; dosya.png</code><div class="d">Dosyayı terminalin yanına gönderir ve nereye düştüğünü yazdırır.</div></div>
+    </div>
+
+    <div class="kt">
+      <h3>Uzak makineler ve dosyalar</h3>
+      <div class="r cmd"><code>hc machine add box@my-server</code><div class="d">SSH ile ulaşılan bir makineyi ekler. Ajanları aynı sidebar'da görünür ve laptop uyurken de çalışır.</div></div>
+      <div class="r cmd"><code>hc machine ls</code> · <code>hc machine login &lt;ad&gt;</code><div class="d">Makineleri listeler. Girişi düşmüş (<code>needs_login</code>) bir makineye hemen yeniden bağlanır.</div></div>
+      <div class="r cmd"><code>hc run --on vps --cwd /srv/app cargo test</code><div class="d">Uzak makinede, kalıcı bir terminalde çalıştırır. <code>vps/t3</code> adresini döndürür.</div></div>
+      <div class="r cmd"><code>hc exec --on vps git status</code><div class="d">Terminal açmadan tek komut çalıştırır, çıktıyı aynen basar, çıkış koduyla döner. <code>-i</code> ile pipe girdisi verilir.</div></div>
+      <div class="r cmd"><code>hc file read --on vps /srv/app/x.rs</code><div class="d">Uzak dosyayı okur. <code>--offset</code> ve <code>--limit</code> alır.</div></div>
+      <div class="r cmd"><code>hc file edit --on vps x.rs --old 'a' --new 'b'</code><div class="d">Tam metni değiştirir. Eski metin dosyada bir kez geçmelidir. Birden çok çift verilirse ya hepsi uygulanır ya hiçbiri.</div></div>
+      <div class="r cmd"><code>hc file write --on vps y.rs &lt; içerik.txt</code><div class="d">Dosyanın tamamını yazar, gerekirse üst klasörleri oluşturur.</div></div>
+    </div>
+
+    <div class="kt">
+      <h3>Sunucu, şablonlar ve diğerleri</h3>
+      <div class="r cmd"><code>hc templates</code><div class="d">Hazır rolleri listeler: reviewer, simplifier gibi. Dosyaları <code>~/.config/herdr-core/templates/</code> altındadır.</div></div>
+      <div class="r cmd"><code>hc run --bg --name review reviewer "src/x.rs'i incele"</code><div class="d">Görevle birlikte bir şablon başlatır.</div></div>
+      <div class="r cmd"><code>hc server status</code><div class="d">Core'un durumunu gösterir. <code>stop</code> ve <code>restart</code> <b>tüm</b> terminalleri etkiler.</div></div>
+      <div class="r cmd"><code>hc server restart --fresh</code><div class="d">Herdr dışındaki bir terminalden çalıştırılır. Yeni terminaller güncel ortam değişkenlerini alır, çalışan programlar etkilenmez.</div></div>
+      <div class="r cmd"><code>hc update</code><div class="d">En son sürüme günceller. Çalışan terminaller korunur.</div></div>
+      <div class="r cmd"><code>hc events</code><div class="d">Değişiklikleri canlı izler.</div></div>
+      <div class="r cmd"><code>hc --skill</code> · <code>hc schema</code><div class="d">Ajanlar için tam kılavuz ve istemci yazacaklar için API şeması.</div></div>
+    </div>
+
+    <div class="kt">
+      <h3>herdr-app <small>pencereyi betikle yönet</small></h3>
+      <div class="r cmd"><code>herdr-app ls</code><div class="d">Açık penceredeki space'leri, tab'ları ve terminalleri pane ID'leriyle listeler.</div></div>
+      <div class="r cmd"><code>herdr-app status</code><div class="d">Ekranda ne olduğunu gösterir: layout, odak, zoom, dosya ve mod hataları.</div></div>
+      <div class="r cmd"><code>herdr-app commands</code><div class="d">Tüm komutları ve argümanlarını listeler.</div></div>
+      <div class="r cmd"><code>herdr-app do space.new --name api --folder ~/code/api</code><div class="d">Adı ve klasörü verilmiş yeni bir space açar.</div></div>
+      <div class="r cmd"><code>herdr-app do tab.new --name "fix login" --argv '["claude"]' --task "Login hatasına bak"</code><div class="d">Yeni bir tab açar, içinde Claude'u ilk göreviyle başlatır.</div></div>
+      <div class="r cmd"><code>herdr-app do space.new --name "remote api" --machine vps --folder /srv/api</code><div class="d">Uzak makinede bir space açar. Tab'ları ve bölmeleri de orada kalır.</div></div>
+      <div class="r cmd"><code>herdr-app shot ekran.png</code><div class="d">Pencerenin son karesini PNG olarak kaydeder. Ekran kaydı izni gerektirmez.</div></div>
+      <div class="r cmd"><code>herdr-app feedback "ne oldu"</code><div class="d">Geri bildirim taslağı hazırlar. Sen onaylamadan gönderilmez.</div></div>
+    </div>
+
+    <div class="kt">
+      <h3>Hazır tarifler</h3>
+      <div class="r cmd"><code>hc run --bg --rm --no-notify --name build cargo build --release; hc wait build</code><div class="d">Uzun build'i arka plana at, bitince kodunu al. <code>--rm</code> bittikten sonra terminali siler.</div></div>
+      <div class="r cmd"><code>hc run --bg --name tests cargo test; hc wait tests; hc read tests --lines 40; hc rm tests</code><div class="d">Testi çalıştır, bekle, son 40 satırı oku ve temizle.</div></div>
+      <div class="r cmd"><code>hc run --bg --rm --no-notify --name ci -- gh run watch 123 --exit-status</code><div class="d">CI'ı terminal kilitlemeden izle.</div></div>
+      <div class="r cmd"><code>hc run --bg --name fix --cwd ~/repo claude "Failing test'i düzelt. Başka dosyaya dokunma, ajan başlatma. Bitince hc send $HC_TERMINAL_ID ile raporla."</code><div class="d">Kapsamı net bir yardımcı ajan başlat.</div></div>
+    </div>
+  </div>
+  <p class="nores" id="nores">Aramana uyan kısayol ya da komut yok.</p>
+</section>
+
+<!-- TAKTİKLER -->
+<section class="blk" id="taktikler">
+  <div class="sh"><span class="n">04</span><h2>Taktikler</h2></div>
+  <p class="sub">Herdr'ı “birden çok terminali olan bir pencere” olmaktan çıkarıp ajan yönetim merkezine çeviren alışkanlıklar.</p>
+  <div class="grid g2 tac">
+    <div class="card"><h3>Repo başına bir space, iş başına bir tab</h3><p>Herdr'ın önerdiği düzen budur. Tab'lara işin adını ver (<kbd>F2</kbd>): “fix login”, “PR #42 review”. Sidebar bir bakışta yapılacaklar listesine dönüşür.</p></div>
+    <div class="card"><h3>Ekrana bakma, sırayı takip et</h3><p>Ajanlar çalışırken sen başka işe geç. Ses ya da bildirim gelince <kbd>⌘</kbd><kbd>]</kbd> ile sıradaki ajana atla. Önce <code>blocked</code> olanlar (seni bekliyor), sonra <code>done</code> olanlar (incelemeye hazır).</p></div>
+    <div class="card"><h3>Fare yerine <kbd>⌘</kbd><kbd>P</kbd></h3><p>Tab, space ya da ajan adının birkaç harfini yaz ve atla. Komut adını bilmiyorsan <kbd>⌘</kbd><kbd>⇧</kbd><kbd>P</kbd> paletinde ara.</p></div>
+    <div class="card"><h3>Her issue'ya bir worktree</h3><p>Tab bar'daki <kbd>+</kbd> menüsünden ya da space menüsünden <b>New worktree…</b> seç. İş ayrı bir checkout'ta, repo'nun altında iç içe bir space olarak açılır. Paralel ajanlar birbirinin dosyasını ezmez. İş bitince aynı menüden <b>Remove worktree</b>.</p></div>
+    <div class="card"><h3>Kapat ve git</h3><p>Pencereyi kapatmak ajanları durdurmaz. Uzun işi başlat, <kbd>⌘</kbd><kbd>Q</kbd> ile çık, sonra geri dön. Terminalden <code>hc ls</code> ile durumlarına bakabilirsin. Durduran tek şey yeniden başlatma ya da <code>hc server stop</code>.</p></div>
+    <div class="card"><h3>Ağır işi sunucuya ver</h3><p><code>hc machine add</code> ile sunucunu ekle, orada bir space aç ve ajanı orada başlat. Laptop uyurken de çalışır. Linux'ta oturum kapanınca programlar duruyorsa o makinede bir kez <code>sudo loginctl enable-linger -- &lt;kullanıcı&gt;</code> çalıştır.</p></div>
+    <div class="card"><h3>Telefondan kontrol</h3><p>iPhone, iPad ve Android uygulamaları SSH ya da Tailscale ile bağlanır. Seni bekleyen ajanı görür, gerçek terminali açar, yazarak, ekran görüntüsü yapıştırarak ya da konuşarak cevap verirsin. Hesap gerekmez, terminaller Herdr sunucularından geçmez.</p></div>
+    <div class="card"><h3>Ajanına yardımcı ajan başlattır</h3><p>Ana ajanından “bu branch'i incelemesi için bir reviewer başlat, bulguları bana raporlasın” iste. Ajan <code>hc run --bg</code> ile yardımcıyı başlatır, raporlar <code>&lt;hc from="t7 review"&gt;</code> etiketiyle gelir. Yardımcıya <kbd>⌘</kbd>+tık ile göz atarsın.</p></div>
+    <div class="card"><h3>Uzun komutlar terminali kilitlemesin</h3><p>Build, test, deploy ve CI izlemeyi <code>hc run --bg</code> ile ayrı bir terminalde çalıştır, <code>hc wait</code> ile bekle. Bu süre içinde hem sen hem ajanın başka iş yapabilir.</p></div>
+    <div class="card"><h3>Önemli ajanı sabitle, biteni rafa kaldır</h3><p>Komut paletinden <code>terminal.pin</code> bir ajanı listelerin en üstüne sabitler. <code>tab.settle</code> bir tab'ı kapatmadan kenara koyar (layout destekliyorsa). Ajanı seni beklemeye başladığında tab kendiliğinden geri gelir.</p></div>
+    <div class="card"><h3>Ekran görüntüsünü doğrudan yapıştır</h3><p><kbd>⌃</kbd><kbd>V</kbd> panodaki görseli ajana yapıştırır. Uzak makinedeki bir ajanda da çalışır: görsel oraya kopyalanır, yolu yapıştırılır.</p></div>
+    <div class="card"><h3>Herdr'ı ajanına değiştirt</h3><p>Herdr'ın tüm arayüzü <code>~/.config/herdr-app</code> içindeki dosyalardan oluşur. Ajanına <code>Read ~/.config/herdr-app/AGENTS.md</code> de ve ne istediğini söyle: ajanlarını kolonlarda gösteren bir pano, her tab'da çalışma süresi sayacı, ntfy.sh ile telefona bildirim gönderen bir mod.</p></div>
+  </div>
+</section>
+
+<!-- KURALLAR -->
+<section class="blk" id="kurallar">
+  <div class="sh"><span class="n">05</span><h2>Altın kurallar</h2></div>
+  <p class="sub">Herdr'ın kendi kılavuzlarından (<code>hc --skill</code>, <code>AGENTS.md</code>) derlendi. Hem senin hem ajanlarının uyması gerekenler.</p>
+
+  <div class="grid g2">
+    <div>
+      <h3 style="margin:0 0 10px;font-size:15px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em">Ajan yönetimi</h3>
+      <ol class="rules">
+        <li><span class="x">01</span><div><b>Beklerken sleep ya da döngü kullanma, <code>hc wait</code> kullan.</b><span><code>hc wait &lt;t&gt;</code>, <code>--output X</code> ya da <code>--children</code>. Zaman aşımı hata sayılmaz, yeniden bekle.</span></div></li>
+        <li><span class="x">02</span><div><b>Ajanları her zaman <code>--bg</code> ve <code>--name</code> ile, net bir kapsamla başlat.</b><span><code>--bg</code> olmazsa ajanın tüm ekranı senin çıktına akar.</span></div></li>
+        <li><span class="x">03</span><div><b>İlk görevi <code>run</code> komutunun içinde ver.</b><span>Henüz açılmakta olan bir ajana gönderilen mesaj kaybolabilir.</span></div></li>
+        <li><span class="x">04</span><div><b>Ajanları etkileşimli çalıştır.</b><span><code>-p</code> gibi tek seferlik yazdırma modlarını kullanma. Ajan izlenebilir, yönlendirilebilir ve yeni tura hazır kalsın.</span></div></li>
+        <li><span class="x">05</span><div><b>Açıkça görev vermediysen alt ajanlar başka ajan başlatmasın.</b><span>Görev metnine “ajan başlatma” yaz.</span></div></li>
+        <li><span class="x">06</span><div><b>Başarısız bir send'i körlemesine tekrarlama.</b><span>Mesaj yine de ulaşmış olabilir. Önce <code>hc read</code> ile ekrana bak.</span></div></li>
+        <li><span class="x">07</span><div><b><code>blocked</code> bir insan gerektiği anlamına gelir.</b><span>Ekranı oku ve kararı ver. İzin kararını <code>--force</code> ile atlatma.</span></div></li>
+        <li><span class="x">08</span><div><b>Raporlar talimat değil, rapordur.</b><span><code>&lt;hc from=…&gt;</code> mesajlarını okumadan başarı varsayma. Uzun cevapları dosyaya yazdır ve dosyanın yolunu iste.</span></div></li>
+        <li><span class="x">09</span><div><b>Başlattığını temizle, başkasınınkine dokunma.</b><span>İş kabul edildikten sonra <code>hc kill</code> ve <code>hc rm</code>. <code>hc ls</code> diğer işlerini de gösterir.</span></div></li>
+        <li><span class="x">10</span><div><b>Alt ajanlar ebeveynleriyle birlikte biter.</b><span>Ebeveyn ölünce yaşamaya devam etmesi gerekiyorsa <code>--outlive-parent</code> ile başlat.</span></div></li>
+        <li><span class="x">11</span><div><b>Codex her zaman <code>--no-daemon</code> ile çalışmalı.</b><span>Yoksa komutları hc'nin dışında çalışır. Herdr menüsü bunu kendisi ekler, sen elle başlatırken unutma.</span></div></li>
+        <li><span class="x">12</span><div><b>Herdr içinde tmux kullanma.</b><span>tmux içindeki ajan listede görünmez. Herdr TUI'nin ajanları da uygulamada görünmez, ikisi ayrı sistemlerdir.</span></div></li>
+      </ol>
+    </div>
+    <div>
+      <h3 style="margin:0 0 10px;font-size:15px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em">Sistem ve özelleştirme</h3>
+      <ol class="rules">
+        <li><span class="x">13</span><div><b><code>hc server stop</code> ve <code>restart</code> tüm terminalleri etkiler.</b><span>Gerekmedikçe dokunma. Güncellemek için <code>hc update</code> yeterlidir, terminaller korunur.</span></div></li>
+        <li><span class="x">14</span><div><b>Herdr'ın kendi layout ve mod'ları salt okunurdur.</b><span>Her açılışta baştan yazılırlar. Değiştirmek istiyorsan önce kopyala: <code>layout.clone</code> ya da <code>mod.clone</code>.</span></div></li>
+        <li><span class="x">15</span><div><b><code>keys.json</code>'a dokunduğun an dosya senin olur.</b><span>Tek bir boşluk eklemen bile yeter. Bundan sonra yeni sürümlerin varsayılan kısayolları otomatik gelmez, elle eklemen gerekir.</span></div></li>
+        <li><span class="x">16</span><div><b>Düz Ctrl+harf kombinasyonları programa aittir.</b><span><kbd>⌃</kbd>C, D, L, R, W, A, E, U, K, Z ve <kbd>⌃</kbd>[ (Esc). Bunlardan birine kısayol atarsan terminaldeki işlevini kaybedersin.</span></div></li>
+        <li><span class="x">17</span><div><b>Her düzenlemeden sonra <code>.error</code> dosyasına bak.</b><span>Bozuk bir dosyada Herdr son çalışan sürümü kullanmaya devam eder ve nedeni <code>keys.error</code>, <code>layout.error</code> gibi dosyalara yazar. Ekranın düzgün görünmesi düzenlemenin çalıştığını kanıtlamaz.</span></div></li>
+        <li><span class="x">18</span><div><b>Başkasının layout ya da mod'unu eklemeden önce bütün dosyalarını oku.</b><span>Mod'lar ağa çıkabilen, program çalıştırabilen JavaScript'tir. Ağa erişiyor mu, program çalıştırıyor mu, klasörünün dışındaki dosyaları okuyor mu, önce bunu kontrol et.</span></div></li>
+        <li><span class="x">19</span><div><b>Mod'u bitti saymadan önce kontrol et.</b><span><code>herdr-app check mods/&lt;ad&gt;</code> geçmeli, ardından <code>herdr-app shot</code> ile gerçek pencerede nasıl göründüğüne bakılmalı.</span></div></li>
+        <li><span class="x">20</span><div><b>macOS gizlilik izinleri Herdr Core'a aittir.</b><span>Herdr.app'e verdiğin izinler core'a geçmez. Güncellemeden sonra izinler bozulursa güncelleme öncesinde açılmış terminalleri yeniden oluştur.</span></div></li>
+        <li><span class="x">21</span><div><b><code>AGENTS.md</code> ve <code>.d.ts</code> dosyalarını düzenleme.</b><span>Herdr bu dosyaları her açılışta yeniden yazar.</span></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ÖZELLEŞTİRME -->
+<section class="blk" id="ozellestir">
+  <div class="sh"><span class="n">06</span><h2>Özelleştirme</h2></div>
+  <p class="sub">Herdr'ın arayüzü <code>~/.config/herdr-app</code> klasöründeki dosyalardan oluşur ve değişiklikler canlı uygulanır. En kolay yol bunları ajanına yaptırmaktır, ama neyin nerede olduğunu bilmek işini hızlandırır.</p>
+
+  <div class="tw">
+    <table class="ft">
+      <thead><tr><th>Dosya</th><th>Neyi belirler</th></tr></thead>
+      <tbody>
+        <tr><td><code>keys.json</code></td><td>Her tuşun ne yaptığını</td></tr>
+        <tr><td><code>settings.json</code></td><td>Sana ait tercihleri: zoom, sesler, font, tema, renkler, açık/koyu mod</td></tr>
+        <tr><td><code>layouts/&lt;ad&gt;.json</code></td><td>Pencerenin tamamını ve görünümünü. Her layout ayrı bir dosyadır.</td></tr>
+        <tr><td><code>mods/&lt;ad&gt;/</code></td><td>Panelleri: küçük JavaScript programları (GPUI, HTML değil)</td></tr>
+        <tr><td><code>programs.json</code></td><td>Programların adını, ikonunu ve rengini. Menüden başlatılacak ajanları da (<code>run</code>).</td></tr>
+        <tr><td><code>~/.config/herdr-core/config.toml</code></td><td>Core ayarları: <code>shell</code>, <code>draft_wait</code>, <code>notes</code>, <code>restore_screen</code></td></tr>
+        <tr><td><code>~/.config/herdr-core/templates/*.md</code></td><td><code>hc run &lt;şablon&gt;</code> ile başlatılan hazır ajan rolleri</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card">
+      <h3>keys.json bölümleri</h3>
+      <p>Daha özel olan bölüm kazanır: <code>terminal</code> › <code>layout:&lt;ad&gt;</code> › <code>global</code>. Ayrıca <code>mod:&lt;ad&gt;</code> bölümü vardır.</p>
+<pre><code>{
+  "global": {
+    "cmd-shift-t": "tab.new",
+    "ctrl-shift-r": { "command": "layout.resize",
+      "args": { "id": "sidebar", "px": 240 } }
+  },
+  "terminal": { "ctrl-1": "terminal" },
+  "layout:terminals": {
+    "ctrl-shift-pagedown": "space.next"
+  }
+}</code></pre>
+      <p style="margin-top:10px;font-size:14px" class="c">Eylem türleri: <code>komut</code>, <code>komut:değer</code>, <code>send:&lt;metin&gt;</code> (terminale yazar), <code>&lt;mod&gt;.&lt;komut&gt;</code> ve <code>"terminal"</code> (tuşu programa bırakır). Birden çok argüman gerekiyorsa <code>{command, args}</code> nesnesi kullanılır.</p>
+    </div>
+    <div class="card">
+      <h3>settings.json'da işe yarayanlar</h3>
+<pre><code>{
+  "zoom": 1.1,
+  "font": "JetBrains Mono",
+  "font_size": 14,
+  "font_ligatures": true,
+  "theme": { "light": "…", "dark": "…" },
+  "appearance": "dark",
+  "option_as_alt": "left",
+  "sounds": { "enabled": true,
+    "done": "sesler/bitti.mp3",
+    "blocked": "sesler/bekliyor.mp3" },
+  "pane_scrollbars": true,
+  "telemetry": false
+}</code></pre>
+      <p style="margin-top:10px;font-size:14px" class="c"><code>telemetry: false</code> anonim kullanım verisini kapatır ve gönderilmemiş olanları siler. <code>clipboard_write: false</code> terminal programlarının panoya yazmasını engeller.</p>
+    </div>
+    <div class="card">
+      <h3>Şablon örneği</h3>
+      <p><code>~/.config/herdr-core/templates/reviewer.md</code>:</p>
+<pre><code>---
+name: reviewer
+description: Değişiklikleri salt okunur inceler
+command: claude
+---
+Yalnızca incele, dosya değiştirme.
+Alt ajan başlatma. Bitince ya da takılınca
+hc send ile ebeveynine raporla.</code></pre>
+      <p style="margin-top:10px;font-size:14px" class="c">Kullanımı: <code>hc run --bg --name review reviewer "src/x.rs"</code>. Şablonun talimatları ve senin görevin tek bir ilk mesajda birleşir.</p>
+    </div>
+    <div class="card">
+      <h3>Kendi script'ine durum bildirt</h3>
+      <p>OSC 7501'i konuşan her program ajan olarak görünür. Bir shell script'i tek satırla durum bildirebilir:</p>
+<pre><code>printf '\e]7501;state=blocked:app=my-agent\e\\'</code></pre>
+      <p style="margin-top:10px;font-size:14px" class="c">Durum değerleri: <code>working</code>, <code>blocked</code>, <code>idle</code>, <code>done</code>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ÖĞRENME YOLU -->
+<section class="blk" id="yol">
+  <div class="sh"><span class="n">07</span><h2>Öğrenme yolu</h2></div>
+  <p class="sub">Sırayla yap ve işaretle. İşaretlerin yalnızca bu tarayıcıda saklanır.</p>
+  <div class="prog"><span id="pct">0 / 10</span><div class="bar"><i id="barI"></i></div><button class="tbtn" id="resetPath" type="button">Sıfırla</button></div>
+  <ol class="path" id="path">
+    <li><input type="checkbox" data-i="1" aria-label="Adım 1"><div class="t"><b>Repo'n için bir space aç ve adlandır</b><span><kbd>⌘</kbd><kbd>N</kbd> ile aç, <kbd>⇧</kbd><kbd>F2</kbd> ile space'e, <kbd>F2</kbd> ile tab'a ad ver.</span></div></li>
+    <li><input type="checkbox" data-i="2" aria-label="Adım 2"><div class="t"><b>Tab bar'daki + menüsünden bir ajan başlat</b><span>Claude Code ya da Codex. Durum noktasının nasıl değiştiğini izle.</span></div></li>
+    <li><input type="checkbox" data-i="3" aria-label="Adım 3"><div class="t"><b>Pane'lerle oyna</b><span><kbd>⌘</kbd><kbd>D</kbd> ve <kbd>⌘</kbd><kbd>⇧</kbd><kbd>D</kbd> ile böl, <kbd>⌘</kbd><kbd>⌥</kbd>+oklarla gez, <kbd>⌘</kbd><kbd>⌥</kbd><kbd>⇧</kbd>+oklarla yer değiştir, <kbd>⌘</kbd><kbd>⇧</kbd><kbd>↩</kbd> ile büyüt.</span></div></li>
+    <li><input type="checkbox" data-i="4" aria-label="Adım 4"><div class="t"><b>Fareyi bırak</b><span><kbd>⌘</kbd><kbd>P</kbd> ile bir tab'a atla, <kbd>⌘</kbd><kbd>⇧</kbd><kbd>P</kbd> ile bir komut çalıştır, <kbd>⌘</kbd><kbd>/</kbd> ile tüm kısayollara bak.</span></div></li>
+    <li><input type="checkbox" data-i="5" aria-label="Adım 5"><div class="t"><b>Seni bekleyen ajana atla</b><span>İzin isteyecek bir iş ver, başka bir tab'a geç. Ajan <code>blocked</code> olunca <kbd>⌘</kbd><kbd>]</kbd> ile ona dön.</span></div></li>
+    <li><input type="checkbox" data-i="6" aria-label="Adım 6"><div class="t"><b>Kalıcılığı kendi gözünle gör</b><span>Ajan çalışırken <kbd>⌘</kbd><kbd>Q</kbd> ile çık. Bir terminalde <code>hc ls</code> çalıştır, sonra Herdr'ı yeniden aç. Ajan hâlâ çalışıyor olmalı.</span></div></li>
+    <li><input type="checkbox" data-i="7" aria-label="Adım 7"><div class="t"><b>Arka plan sunucusu ve bekleme</b><span><code>hc run --bg --name web npm run dev</code>, ardından <code>hc wait web --output ready</code> ve <code>hc read web --lines 20</code>.</span></div></li>
+    <li><input type="checkbox" data-i="8" aria-label="Adım 8"><div class="t"><b>Bir issue için worktree aç</b><span>+ menüsünden <b>New worktree…</b>. Paralel iki ajanı iki ayrı worktree'de çalıştır.</span></div></li>
+    <li><input type="checkbox" data-i="9" aria-label="Adım 9"><div class="t"><b>Sunucunu ekle</b><span><code>hc machine add kullanıcı@sunucu</code>, sonra orada bir space aç ve ajanı başlat. Laptop'u kapatıp telefondan kontrol et.</span></div></li>
+    <li><input type="checkbox" data-i="10" aria-label="Adım 10"><div class="t"><b>Herdr'ı ajanına özelleştirt</b><span>Ajanına <code>Read ~/.config/herdr-app/AGENTS.md</code> de ve bir şey iste, örneğin her tab'da çalışma süresi sayacı. Sonra <kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd> ile layout'lar arasında gez.</span></div></li>
+  </ol>
+</section>
+
+<!-- KAYNAKLAR -->
+<section class="blk" id="kaynaklar">
+  <div class="sh"><span class="n">08</span><h2>Kaynaklar</h2></div>
+  <div class="grid g3">
+    <div class="card"><h3>Resmî</h3><ul>
+      <li><a href="https://herdr.dev/">herdr.dev</a></li>
+      <li><a href="https://herdr.dev/guide/">Kılavuz</a> · <a href="https://herdr.dev/core/">herdr-core</a></li>
+      <li><a href="https://herdr.dev/gallery/">Galeri</a>: başkalarının layout ve mod'ları</li>
+      <li><a href="https://herdr.dev/mobile/">Mobil uygulamalar</a></li>
+    </ul></div>
+    <div class="card"><h3>Kaynak kod</h3><ul>
+      <li><a href="https://github.com/herdrdev/herdr-app">herdr-app</a></li>
+      <li><a href="https://github.com/herdrdev/herdr-core">herdr-core</a></li>
+      <li><a href="https://github.com/herdrdev/herdr-app/blob/master/defaults/AGENTS.md">AGENTS.md</a>: tüm komutlar ve ayarlar</li>
+      <li><a href="https://discord.gg/PsgRfzmUDg">Discord</a></li>
+    </ul></div>
+    <div class="card"><h3>Kendi makinende</h3><ul>
+      <li><code>hc --help</code> · <code>hc --skill</code></li>
+      <li><code>herdr-app --skill</code></li>
+      <li><code>herdr-app commands</code></li>
+      <li><code>~/.config/herdr-app/AGENTS.md</code></li>
+    </ul></div>
+  </div>
+</section>
+
+<footer>
+  <span>Resmî olmayan Türkçe kılavuz. Herdr 0.1.15 ve hc 0.1.21'in yerleşik kılavuzlarından derlendi.</span>
+  <span>Herdr, Apache 2.0 lisanslı açık kaynak bir projedir.</span>
+</footer>
+</main>
+
+<script>
+(function(){
+  var store = {
+    get: function(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+    set: function(k,v){ try { localStorage.setItem(k,v); } catch(e){} },
+    del: function(k){ try { localStorage.removeItem(k); } catch(e){} }
+  };
+
+  // Tema
+  var root = document.documentElement, btn = document.getElementById('themeBtn');
+  var modes = ['auto','light','dark'], names = {auto:'otomatik', light:'açık', dark:'koyu'};
+  function applyTheme(m){
+    if (m === 'auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', m);
+    btn.textContent = 'Tema: ' + names[m];
+  }
+  var mode = store.get('herdr-tr-theme') || 'auto';
+  if (modes.indexOf(mode) < 0) mode = 'auto';
+  applyTheme(mode);
+  btn.addEventListener('click', function(){
+    mode = modes[(modes.indexOf(mode) + 1) % modes.length];
+    applyTheme(mode); store.set('herdr-tr-theme', mode);
+  });
+
+  // Arama
+  var q = document.getElementById('q');
+  var rows = Array.prototype.slice.call(document.querySelectorAll('[data-f] .r'));
+  var tables = Array.prototype.slice.call(document.querySelectorAll('[data-f] .kt'));
+  var nores = document.getElementById('nores');
+  function norm(s){ return s.toLocaleLowerCase('tr').normalize('NFD').replace(/[̀-ͯ]/g,''); }
+  rows.forEach(function(r){ r._t = norm(r.textContent); });
+  tables.forEach(function(t){ t._h = norm(t.querySelector('h3').textContent); });
+  q.addEventListener('input', function(){
+    var v = norm(q.value.trim()), any = false;
+    tables.forEach(function(t){
+      var shown = 0, rs = t.querySelectorAll('.r'), head = v && t._h.indexOf(v) >= 0;
+      for (var i = 0; i < rs.length; i++){
+        var ok = !v || head || rs[i]._t.indexOf(v) >= 0;
+        rs[i].classList.toggle('hidden', !ok); if (ok) shown++;
+      }
+      t.classList.toggle('hidden', shown === 0); if (shown) any = true;
+    });
+    nores.style.display = any ? 'none' : 'block';
+    if (v) { var kk = document.getElementById('kisayollar'); if (kk.getBoundingClientRect().top > window.innerHeight * 0.6 || kk.getBoundingClientRect().bottom < 0) kk.scrollIntoView(); }
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === '/' && document.activeElement !== q && !/input|textarea/i.test(document.activeElement.tagName)) { e.preventDefault(); q.focus(); }
+    if (e.key === 'Escape' && document.activeElement === q) { q.value = ''; q.dispatchEvent(new Event('input')); q.blur(); }
+  });
+
+  // Öğrenme yolu
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('#path input'));
+  var saved = {}; try { saved = JSON.parse(store.get('herdr-tr-path') || '{}') || {}; } catch(e){ saved = {}; }
+  function upd(){
+    var n = 0;
+    boxes.forEach(function(b){ b.closest('li').classList.toggle('ok', b.checked); if (b.checked) n++; });
+    document.getElementById('pct').textContent = n + ' / ' + boxes.length;
+    document.getElementById('barI').style.width = (n / boxes.length * 100) + '%';
+  }
+  boxes.forEach(function(b){
+    b.checked = !!saved[b.dataset.i];
+    b.addEventListener('change', function(){ saved[b.dataset.i] = b.checked; store.set('herdr-tr-path', JSON.stringify(saved)); upd(); });
+  });
+  document.getElementById('resetPath').addEventListener('click', function(){ saved = {}; store.del('herdr-tr-path'); boxes.forEach(function(b){ b.checked = false; }); upd(); });
+  upd();
+
+  // Aktif bölüm
+  var links = Array.prototype.slice.call(document.querySelectorAll('#nav a'));
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting) links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    document.querySelectorAll('section.blk').forEach(function(s){ io.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
